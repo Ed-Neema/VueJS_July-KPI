@@ -1,0 +1,40 @@
+version: '3'
+services:
+
+  enquiry-manager:
+    image: enquiry-manager-web
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - BUILD_ENV=DEV
+    container_name: enquiry-manager-web
+    restart: unless-stopped
+    volumes:
+      - ./project/laravel/:/www
+      - ./:/home/www
+    networks:
+      - enquiry-manager-network
+    ports:
+      - "80:80"
+
+  enquiry-manager-db:
+    image: mysql:5.7.22
+    container_name: enquiry-manager-db
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: enquiry_db
+      MYSQL_ROOT_PASSWORD: root
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - ./dbdata:/var/lib/mysql/
+    networks:
+      - enquiry-manager-network
+
+networks:
+  enquiry-manager-network:
+    driver: bridge

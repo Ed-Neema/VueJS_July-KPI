@@ -1,0 +1,6 @@
+.project
+.settings
+.idea
+.env
+vendor
+dbdata

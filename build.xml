@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="Enquiry Manager" basedir="." default="build">
+
+    <target name="build" description="integration build" depends="php-cs, php-stan, php-md, php-unit"/>
+
+    <target name="php-cs" description="Fixing CS errors">
+        <exec command="vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php"  logoutput="true" dir="project/laravel" checkreturn="true" passthru="true"/>
+    </target>
+
+    <target name="php-stan" description="Running static analysis">
+        <exec command="vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 512M"  logoutput="true" dir="project/laravel" checkreturn="true" passthru="true"/>
+    </target>
+
+    <target name="php-md" description="Running PHP mess detector">
+        <exec command="vendor/bin/phpmd . text phpmd.xml"  logoutput="true" dir="project/laravel" checkreturn="true" passthru="true"/>
+    </target>
+
+    <target name="php-unit" description="Runing Unit Tests">
+        <exec command="vendor/bin/phpunit"  logoutput="true" dir="project/laravel" checkreturn="true" passthru="true"/>
+    </target>
+
+</project>
